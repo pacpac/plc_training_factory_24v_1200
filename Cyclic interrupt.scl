@@ -1,0 +1,896 @@
+﻿TYPE "typ_Axis_Data"
+VERSION : 0.1
+   STRUCT
+      di_Pos_Soft_Switch : DInt := 0;
+      di_Neg_Soft_Switch : DInt := 0;
+      di_Ref_Pos : DInt := 0;
+      di_Loop_Value : DInt := 0;
+      di_Pos_Window : DInt := 15;
+   END_STRUCT;
+
+END_TYPE
+
+TYPE "typ_Axis"
+VERSION : 0.1
+   STRUCT
+      x_Start_Positioning : Bool;
+      x_Reference : Bool;
+      x_Referenced : Bool;
+      x_Position_Reached : Bool;
+      di_Target_Position : DInt;
+      di_Increment : DInt;
+      di_Actual_Position : DInt := 0;
+      i_PWM : Int;
+      Config { S7_SetPoint := 'False'} : "typ_Axis_Data";
+   END_STRUCT;
+
+END_TYPE
+
+TYPE "typ_Workpiece"
+VERSION : 0.1
+   STRUCT
+      s_id : String;
+      s_type : String;
+      s_state : String;
+   END_STRUCT;
+
+END_TYPE
+
+TYPE "typ_History"
+VERSION : 0.1
+   STRUCT
+      ldt_ts {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;
+      i_code : Int;
+   END_STRUCT;
+
+END_TYPE
+
+TYPE "typ_VGR"
+VERSION : 0.1
+   STRUCT
+      x_Start_Park_Position : Bool;
+      x_Park_Position_Reached : Bool;
+      x_NFC_Start_First : Bool;
+      x_NFC_Start : Bool;
+      x_NFC_Completed : Bool;
+      x_HBW_Storage : Bool;
+      x_HBW_Outsource : Bool;
+      s_HBW_Outsource_Typ : String;
+      x_HBW_Discards : Bool;
+      x_HBW_PickedUp : Bool;
+      x_MPO_Req_Discard : Bool;
+      x_MPO_Discards : Bool;
+      x_Ready_For_Outsource : Bool;
+      x_State_Process : Bool;
+      x_Workpiece_NiO : Bool;
+      horizontal_Axis { S7_SetPoint := 'False'} : "typ_Axis";
+      vertical_Axis { S7_SetPoint := 'False'} : "typ_Axis";
+      rotate_Axis { S7_SetPoint := 'False'} : "typ_Axis";
+      Workpiece { S7_SetPoint := 'False'} : "typ_Workpiece";
+      History : Array[1..20] of "typ_History";
+      di_Pos_DSI_horizontal : DInt;
+      di_Pos_DSI_Collect_vertical : DInt;
+      di_Pos_DSI_Discard_vertical : DInt;
+      di_Offset_Pos_DSI_NFC_vertical : DInt;
+      di_Pos_DSI_rotate : DInt;
+      di_Pos_DSO_horizontal : DInt;
+      di_Pos_DSO_Collect_vertical : DInt;
+      di_Pos_DSO_Discard_vertical : DInt;
+      di_Offset_Pos_DSO_vertical : DInt;
+      di_Pos_DSO_rotate : DInt;
+      di_Pos_Color_horizontal : DInt;
+      di_Pos_Color_vertical : DInt;
+      di_Pos_Color_rotate : DInt;
+      di_Pos_NFC_horizontal : DInt;
+      di_Pos_NFC_vertical : DInt;
+      di_Pos_NFC_rotate : DInt;
+      di_Pos_MPO_horizontal : DInt;
+      di_Pos_MPO_vertical : DInt;
+      di_Offset_Pos_MPO_vertical : DInt;
+      di_Pos_MPO_rotate : DInt;
+      di_Pos_HBW_horizontal : DInt;
+      di_Offset_Pos_HBW_horizontal : DInt;
+      di_Pos_HBW_Collect_vertical : DInt;
+      di_Pos_HBW_Discard_vertical : DInt;
+      di_Offset_Pos_HBW_vertical : DInt;
+      di_Pos_HBW_rotate : DInt;
+      di_Pos_NiO_horizontal : DInt;
+      di_Pos_NiO_vertical : DInt;
+      di_Pos_NiO_rotate : DInt;
+      di_Pos_SLD_Blue_horizontal : DInt;
+      di_Pos_SLD_Blue_vertical : DInt;
+      di_Pos_SLD_Blue_rotate : DInt;
+      di_Pos_SLD_Red_horizontal : DInt;
+      di_Pos_SLD_Red_vertical : DInt;
+      di_Pos_SLD_Red_rotate : DInt;
+      di_Pos_SLD_White_horizontal : DInt;
+      di_Pos_SLD_White_vertical : DInt;
+      di_Pos_SLD_White_rotate : DInt;
+      di_Pos_Park_horizontal : DInt;
+      di_Pos_Park_vertical : DInt;
+      di_Pos_Park_rotate : DInt;
+   END_STRUCT;
+
+END_TYPE
+
+TYPE "typ_SetupAxis"
+VERSION : 0.1
+   STRUCT
+      x_Setup_Activ : Bool;   // Set up calibration active
+      i_AxisSelection : Int;   // Number of the axis
+      i_Function : Int;   // 0 = automatic, 10 = ref. Travel, 20 = tap, 30 = tap with step width, 40 = start
+      x_Set_Ref_Pos : Bool;   // Set reference value
+      x_Set_Soft_End_Pos : Bool;   // Set software end positions
+      x_Approach_Ref_Pos : Bool;   // Approach reference
+      x_Axis_Pos : Bool;   // Axis positiv
+      x_Axis_Neg : Bool;   // Axis negative
+      x_Approach_Target_Pos : Bool;   // Approach Target position
+      w_Increment : Word;   // Increments per step
+      i_PWM : Int;   // PWM Signal
+      di_Target_Position : DInt;   // Target position
+      di_ActualPosition : DInt;   // Actual position
+      di_Ref_Pos : DInt;   // Reference position
+      di_Actual_Ref_Pos : DInt;   // Current reference position
+      di_Soft_End_Pos_Neg : DInt;   // Software end position negative
+      di_Actual_Soft_End_Pos_Neg : DInt;   // Current software end position negative
+      di_Soft_End_Pos_Pos : DInt;   // Software end position positiv
+      di_Actual_Soft_End_Pos_Pos : DInt;   // Current software end position positiv
+      di_LoopValue : DInt;   // Loop value
+   END_STRUCT;
+
+END_TYPE
+
+DATA_BLOCK "CTRL_HSC_1_DB"
+{InstructionName := 'CTRL_HSC';
+ LibVersion := '1.0';
+ S7_Optimized_Access := 'TRUE' }
+AUTHOR : SIMATIC
+FAMILY : 'COUNTER'
+NAME : CTRL_HSC
+VERSION : 1.0
+NON_RETAIN
+CTRL_HSC
+
+BEGIN
+
+END_DATA_BLOCK
+
+DATA_BLOCK "CTRL_HSC_0_DB"
+{InstructionName := 'CTRL_HSC';
+ LibVersion := '1.0';
+ S7_Optimized_Access := 'TRUE' }
+AUTHOR : SIMATIC
+FAMILY : 'COUNTER'
+NAME : CTRL_HSC
+VERSION : 1.0
+NON_RETAIN
+CTRL_HSC
+
+BEGIN
+
+END_DATA_BLOCK
+
+DATA_BLOCK "gtyp_VGR"
+TITLE = Global DB VGR
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'A.Schaefer'
+VERSION : 0.0
+"typ_VGR"
+
+BEGIN
+   horizontal_Axis.i_PWM := 500;
+   horizontal_Axis.Config.di_Pos_Soft_Switch := 20000;
+   horizontal_Axis.Config.di_Neg_Soft_Switch := 0;
+   horizontal_Axis.Config.di_Ref_Pos := 0;
+   horizontal_Axis.Config.di_Loop_Value := 0;
+   horizontal_Axis.Config.di_Pos_Window := 15;
+   vertical_Axis.i_PWM := 800;
+   vertical_Axis.Config.di_Pos_Soft_Switch := 20000;
+   vertical_Axis.Config.di_Neg_Soft_Switch := 0;
+   vertical_Axis.Config.di_Ref_Pos := 0;
+   vertical_Axis.Config.di_Loop_Value := 0;
+   vertical_Axis.Config.di_Pos_Window := 15;
+   rotate_Axis.i_PWM := 500;
+   rotate_Axis.Config.di_Pos_Soft_Switch := 20000;
+   rotate_Axis.Config.di_Neg_Soft_Switch := 0;
+   rotate_Axis.Config.di_Ref_Pos := 0;
+   rotate_Axis.Config.di_Loop_Value := 0;
+   rotate_Axis.Config.di_Pos_Window := 15;
+   di_Pos_DSI_horizontal := 20;
+   di_Pos_DSI_Collect_vertical := 2950;
+   di_Offset_Pos_DSI_NFC_vertical := 1200;
+   di_Pos_DSI_rotate := 30;
+   di_Pos_DSO_horizontal := 2070;
+   di_Pos_DSO_Discard_vertical := 1480;
+   di_Offset_Pos_DSO_vertical := 500;
+   di_Pos_DSO_rotate := 970;
+   di_Pos_Color_horizontal := 150;
+   di_Pos_Color_vertical := 2450;
+   di_Pos_Color_rotate := 430;
+   di_Pos_NFC_horizontal := 900;
+   di_Pos_NFC_vertical := 2450;
+   di_Pos_NFC_rotate := 700;
+   di_Pos_MPO_horizontal := 3300;
+   di_Pos_MPO_vertical := 2000;
+   di_Offset_Pos_MPO_vertical := 650;
+   di_Pos_MPO_rotate := 3495;
+   di_Pos_HBW_horizontal := 600;
+   di_Offset_Pos_HBW_horizontal := 0;
+   di_Pos_HBW_Collect_vertical := 650;
+   di_Pos_HBW_Discard_vertical := 200;
+   di_Offset_Pos_HBW_vertical := 100;
+   di_Pos_HBW_rotate := 5350;
+   di_Pos_NiO_horizontal := 0;
+   di_Pos_NiO_vertical := 2700;
+   di_Pos_NiO_rotate := 1100;
+   di_Pos_SLD_Blue_horizontal := 2150;
+   di_Pos_SLD_Blue_vertical := 3100;
+   di_Pos_SLD_Blue_rotate := 1200;
+   di_Pos_SLD_Red_horizontal := 1580;
+   di_Pos_SLD_Red_vertical := 3100;
+   di_Pos_SLD_Red_rotate := 1460;
+   di_Pos_SLD_White_horizontal := 1370;
+   di_Pos_SLD_White_vertical := 3100;
+   di_Pos_SLD_White_rotate := 1720;
+   di_Pos_Park_horizontal := 150;
+   di_Pos_Park_vertical := 3000;
+   di_Pos_Park_rotate := 1750;
+
+END_DATA_BLOCK
+
+DATA_BLOCK "CTRL_HSC_2_DB"
+{InstructionName := 'CTRL_HSC';
+ LibVersion := '1.0';
+ S7_Optimized_Access := 'TRUE' }
+AUTHOR : SIMATIC
+FAMILY : 'COUNTER'
+NAME : CTRL_HSC
+VERSION : 1.0
+NON_RETAIN
+CTRL_HSC
+
+BEGIN
+
+END_DATA_BLOCK
+
+FUNCTION_BLOCK "FB_Axis"
+TITLE = Functionblock Axis
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'A.Schaefer'
+VERSION : 0.0
+   VAR_INPUT 
+      ini_Axis { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      indi_Increment { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+      inx_Ref_Switch { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      inx_Start_Positioning { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      inx_Referencing { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      ini_PWM { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      indi_Target_Position { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+   END_VAR
+
+   VAR_OUTPUT 
+      outx_Referenced { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      outx_Position_Reached { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      outx_Motor_Pos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      outx_Motor_Neg { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      outi_Motor_PWM { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      outdi_Actual_Position { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+   END_VAR
+
+   VAR_IN_OUT 
+      inouttyp_Config : "typ_Axis_Data";
+      inouttyp_Setup : "typ_SetupAxis";
+   END_VAR
+
+   VAR 
+      li_StepCaseSetup { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      li_StepCase { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      lx_Init { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      lx_Motor_Neg { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      lx_Motor_Pos { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      lx_Start_TON_Wait { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      li_PWM { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+      ldi_ValueStep { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+      ldi_Actual_Position { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+      ldi_Actual_Position_Old { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : DInt;
+      lfb_R_Trig_Setup {InstructionName := 'R_TRIG'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : R_TRIG;
+      lfb_R_Trig_Referencing {InstructionName := 'R_TRIG'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : R_TRIG;
+      lfb_TON_Wait {InstructionName := 'TON_TIME'; LibVersion := '1.0'; ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : TON_TIME;
+   END_VAR
+
+
+BEGIN
+	IF #lx_Init THEN
+	    
+	    // rising edge set up axis
+	    #lfb_R_Trig_Setup(CLK := #inouttyp_Setup.x_Setup_Activ);
+	    
+	    //Reload when switching to set up
+	    IF #lfb_R_Trig_Setup.Q THEN
+	        #inouttyp_Setup.di_LoopValue               := #inouttyp_Config.di_Loop_Value;
+	        #inouttyp_Setup.di_Ref_Pos                 := 
+	        #inouttyp_Setup.di_Actual_Ref_Pos          := #inouttyp_Config.di_Ref_Pos;
+	        #inouttyp_Setup.di_Soft_End_Pos_Neg        := 
+	        #inouttyp_Setup.di_Actual_Soft_End_Pos_Neg := #inouttyp_Config.di_Neg_Soft_Switch;
+	        #inouttyp_Setup.di_Soft_End_Pos_Pos        :=
+	        #inouttyp_Setup.di_Actual_Soft_End_Pos_Pos := #inouttyp_Config.di_Pos_Soft_Switch;
+	        #inouttyp_Setup.i_PWM                      := #ini_PWM;
+	        #inouttyp_Setup.x_Approach_Ref_Pos         := FALSE;
+	        #inouttyp_Setup.x_Approach_Target_Pos      := FALSE;
+	        #inouttyp_Setup.x_Axis_Neg                 := FALSE;
+	        #inouttyp_Setup.x_Axis_Pos                 := FALSE;
+	        #inouttyp_Setup.x_Set_Ref_Pos              := FALSE;
+	        #inouttyp_Setup.x_Set_Soft_End_Pos         := FALSE;
+	    END_IF;
+	    
+	    #ldi_Actual_Position := #indi_Increment;
+	    
+	    //rising edge referencing
+	    #lfb_R_Trig_Referencing(CLK := #inx_Referencing);
+	    
+	    //waiting period
+	    #lfb_TON_Wait(IN := #lx_Start_TON_Wait,
+	                  PT := T#200ms);
+	    
+	    (**********************************)
+	    (******   set up step chain   *****)
+	    (**********************************)
+	    IF #inouttyp_Setup.i_AxisSelection = #ini_Axis AND #inouttyp_Setup.x_Setup_Activ THEN
+	        IF #inouttyp_Setup.x_Approach_Ref_Pos THEN
+	            #inouttyp_Setup.i_Function := 10;
+	        END_IF;
+	        
+	        CASE #inouttyp_Setup.i_Function OF
+	                
+	            0:  // automatic
+	                #ldi_Actual_Position_Old := 0;
+	                #inouttyp_Setup.x_Approach_Ref_Pos := FALSE;
+	                #lx_Start_TON_Wait := FALSE;
+	                
+	            10: // homing
+	                IF #inouttyp_Setup.x_Approach_Ref_Pos THEN
+	                    IF NOT #inx_Ref_Switch THEN
+	                        #lx_Motor_Neg := TRUE;
+	                        #lx_Motor_Pos := FALSE;
+	                        #outx_Referenced := FALSE;
+	                    END_IF;
+	                    
+	                    IF #inx_Ref_Switch THEN
+	                        #lx_Motor_Neg := TRUE;
+	                        #lx_Motor_Pos := TRUE;
+	                        
+	                        IF #ldi_Actual_Position = #inouttyp_Config.di_Ref_Pos THEN
+	                            #inouttyp_Setup.x_Approach_Ref_Pos := FALSE;
+	                            #lx_Motor_Neg       := FALSE;
+	                            #lx_Motor_Pos       := FALSE;
+	                            #outx_Referenced    := TRUE;
+	                        END_IF;
+	                    END_IF;
+	                END_IF;
+	                
+	            20:  // tap
+	                #lx_Motor_Neg := #inouttyp_Setup.x_Axis_Neg AND NOT #inx_Ref_Switch AND NOT (#ldi_Actual_Position <= #inouttyp_Setup.di_Soft_End_Pos_Neg);
+	                #lx_Motor_Pos := #inouttyp_Setup.x_Axis_Pos AND NOT #lx_Motor_Neg AND NOT (#ldi_Actual_Position >= #inouttyp_Setup.di_Soft_End_Pos_Pos);
+	                
+	            30:  // tap with increment
+	                #ldi_Actual_Position_Old := #ldi_Actual_Position;
+	                
+	                // positiv
+	                IF #inouttyp_Setup.x_Axis_Pos AND NOT ((#ldi_Actual_Position + #inouttyp_Setup.w_Increment + #inouttyp_Setup.di_LoopValue) >= #inouttyp_Setup.di_Soft_End_Pos_Pos) THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #ldi_ValueStep := #ldi_Actual_Position_Old + #inouttyp_Setup.w_Increment;
+	                    
+	                    // without loop
+	                    IF (#inouttyp_Setup.di_LoopValue = 0) THEN
+	                        #inouttyp_Setup.i_Function := 36;
+	                    ELSE
+	                        #inouttyp_Setup.i_Function := 31;
+	                    END_IF;
+	                // negativ
+	                ELSIF #inouttyp_Setup.x_Axis_Neg AND NOT ((#ldi_Actual_Position - #inouttyp_Setup.w_Increment) <= #inouttyp_Config.di_Neg_Soft_Switch) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #ldi_ValueStep := #ldi_Actual_Position_Old - #inouttyp_Setup.w_Increment;
+	                    #inouttyp_Setup.i_Function := 34;
+	                END_IF;
+	                
+	            31: // with loop
+	                IF ((#ldi_Actual_Position >= (#ldi_ValueStep + #inouttyp_Setup.di_LoopValue - #inouttyp_Config.di_Pos_Window)) = 0) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #inouttyp_Setup.i_Function := 32;
+	                END_IF;
+	                
+	            32: // wait sequence
+	                #lx_Start_TON_Wait := TRUE;
+	                
+	                IF #lfb_TON_Wait.Q THEN
+	                    #lx_Motor_Neg               := FALSE;
+	                    #lx_Motor_Pos               := FALSE;
+	                    #lx_Start_TON_Wait          := FALSE;
+	                    #inouttyp_Setup.i_Function  := 33;
+	                END_IF;
+	                
+	            33: // change direction
+	                #lx_Motor_Neg := TRUE;
+	                #lx_Motor_Pos := FALSE;
+	                #inouttyp_Setup.i_Function := 34;
+	                
+	            34: // position reached negativ
+	                IF (#ldi_Actual_Position <= (#ldi_ValueStep + #inouttyp_Config.di_Pos_Window))
+	                    AND (#ldi_Actual_Position >= (#ldi_ValueStep - #inouttyp_Config.di_Pos_Window)) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #inouttyp_Setup.i_Function := 35;
+	                END_IF;
+	                
+	            35: // wait sequence
+	                #lx_Start_TON_Wait := TRUE;
+	                
+	                IF #lfb_TON_Wait.Q THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #lx_Start_TON_Wait := FALSE;
+	                    #inouttyp_Setup.x_Axis_Neg := FALSE;
+	                    #inouttyp_Setup.x_Axis_Pos := FALSE;
+	                    #inouttyp_Setup.i_Function := 30;
+	                END_IF;
+	                    
+	                
+	            36: // position reached positiv
+	                IF (#ldi_Actual_Position <= (#ldi_ValueStep + #inouttyp_Config.di_Pos_Window))
+	                    AND (#ldi_Actual_Position >= (#ldi_ValueStep - #inouttyp_Config.di_Pos_Window)) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #inouttyp_Setup.i_Function := 37;
+	                END_IF;
+	            
+	            37: // wait sequence
+	                #lx_Start_TON_Wait := TRUE;
+	            
+	                IF #lfb_TON_Wait.Q THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #lx_Start_TON_Wait := FALSE;
+	                    #inouttyp_Setup.x_Axis_Neg := FALSE;
+	                    #inouttyp_Setup.x_Axis_Pos := FALSE;
+	                    #inouttyp_Setup.i_Function := 30;
+	                END_IF;
+	                
+	            40: // approach position
+	                IF #inouttyp_Setup.x_Approach_Target_Pos THEN
+	                    // positiv
+	                    IF (#inouttyp_Setup.di_Target_Position > #ldi_Actual_Position) AND NOT ((#inouttyp_Setup.di_Target_Position + #inouttyp_Setup.di_LoopValue) >= #inouttyp_Setup.di_Soft_End_Pos_Pos)  THEN
+	                        #lx_Motor_Neg := FALSE;
+	                        #lx_Motor_Pos := TRUE;
+	                        // without loop
+	                        IF (#inouttyp_Setup.di_LoopValue = 0) THEN
+	                            #inouttyp_Setup.i_Function := 46;
+	                        ELSE
+	                            #inouttyp_Setup.i_Function := 41;
+	                        END_IF;
+	                    // negativ
+	                    ELSIF ((#inouttyp_Setup.di_Target_Position < #ldi_Actual_Position) AND NOT (#inouttyp_Setup.di_Target_Position <= #inouttyp_Config.di_Neg_Soft_Switch))  THEN
+	                        #lx_Motor_Neg := TRUE;
+	                        #lx_Motor_Pos := FALSE;
+	                        #inouttyp_Setup.i_Function := 44;
+	                    ELSIF (#inouttyp_Setup.di_Target_Position = #ldi_Actual_Position) THEN
+	                        #inouttyp_Setup.i_Function := 46;
+	                    END_IF;
+	                    
+	                END_IF;
+	                
+	            41: // with loop
+	                IF (#ldi_Actual_Position >= (#inouttyp_Setup.di_Target_Position + #inouttyp_Setup.di_LoopValue - #inouttyp_Config.di_Pos_Window)) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #inouttyp_Setup.i_Function := 42;
+	                END_IF;
+	                
+	            42: // wait sequence
+	                #lx_Start_TON_Wait := TRUE;
+	                
+	                IF #lfb_TON_Wait.Q THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #lx_Start_TON_Wait := FALSE;
+	                    #inouttyp_Setup.i_Function := 43;
+	                END_IF;
+	                
+	            43: // change direction
+	                #lx_Motor_Neg   := TRUE;
+	                #lx_Motor_Pos   := FALSE;
+	                #inouttyp_Setup.i_Function     := 44;
+	            
+	            44: // position reached negativ
+	                IF (#ldi_Actual_Position <= (#inouttyp_Setup.di_Target_Position + #inouttyp_Config.di_Pos_Window))
+	                    AND (#ldi_Actual_Position >= (#inouttyp_Setup.di_Target_Position - #inouttyp_Config.di_Pos_Window)) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #inouttyp_Setup.i_Function := 45;
+	                END_IF;
+	                
+	            45: // wait sequence
+	                #lx_Start_TON_Wait := TRUE;
+	                
+	                IF #lfb_TON_Wait.Q THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #lx_Start_TON_Wait := FALSE;
+	                    #inouttyp_Setup.x_Axis_Neg := FALSE;
+	                    #inouttyp_Setup.x_Axis_Pos := FALSE;
+	                    #inouttyp_Setup.i_Function := 40;
+	                END_IF;
+	                
+	            46: //  position reached positiv
+	                IF (#ldi_Actual_Position <= (#inouttyp_Setup.di_Target_Position + #inouttyp_Config.di_Pos_Window))
+	                    AND (#ldi_Actual_Position >= (#inouttyp_Setup.di_Target_Position - #inouttyp_Config.di_Pos_Window)) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #inouttyp_Setup.i_Function := 47;
+	                END_IF;
+	                
+	            47:  // wait sequence
+	                #lx_Start_TON_Wait := TRUE;
+	                
+	                IF #lfb_TON_Wait.Q THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #lx_Start_TON_Wait := FALSE;
+	                    #inouttyp_Setup.x_Approach_Target_Pos := FALSE;
+	                    #inouttyp_Setup.i_Function := 40;
+	                END_IF;
+	            ELSE  // Statement section ELSE
+	                ;
+	        END_CASE;
+	        
+	        // set reference point
+	        IF #inouttyp_Setup.x_Set_Ref_Pos THEN
+	            #inouttyp_Setup.di_Actual_Ref_Pos   :=
+	            #inouttyp_Config.di_Ref_Pos         := #inouttyp_Setup.di_Ref_Pos;
+	            #inouttyp_Setup.x_Set_Ref_Pos       := FALSE;
+	        END_IF;
+	        
+	        // set software end position
+	        IF #inouttyp_Setup.x_Set_Soft_End_Pos THEN
+	            #inouttyp_Setup.di_Actual_Soft_End_Pos_Neg  :=
+	            #inouttyp_Config.di_Neg_Soft_Switch         := #inouttyp_Setup.di_Soft_End_Pos_Neg;
+	            #inouttyp_Setup.di_Actual_Soft_End_Pos_Pos  :=
+	            #inouttyp_Config.di_Pos_Soft_Switch         := #inouttyp_Setup.di_Soft_End_Pos_Pos;
+	            #inouttyp_Setup.x_Set_Soft_End_Pos := FALSE;
+	        END_IF;
+	        
+	        // reload PWM
+	        #li_PWM := #inouttyp_Setup.i_PWM;
+	        
+	        // reload actual position
+	        #inouttyp_Setup.di_ActualPosition           := #ldi_Actual_Position;
+	
+	    (************************************)
+	    (******   position step chain   *****)
+	    (************************************)
+	    ELSIF NOT #inouttyp_Setup.x_Setup_Activ THEN
+	                
+	        // rising edge set up axis
+	        IF #lfb_R_Trig_Referencing.Q THEN
+	            #li_StepCase := 0;
+	        END_IF;
+	                
+	        CASE #li_StepCase OF
+	                
+	            0:  // init
+	                #lx_Start_TON_Wait := FALSE;
+	                
+	                IF #inx_Referencing THEN
+	                    #li_StepCase            := 10;
+	                    #outx_Position_Reached  := FALSE;
+	                    #outx_Referenced        := FALSE;
+	                ELSIF #inx_Start_Positioning THEN
+	                    #li_StepCase            := 20;
+	                    #outx_Position_Reached  := FALSE;
+	                END_IF;
+	                
+	            10: // homing
+	                IF NOT #inx_Ref_Switch THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := FALSE;
+	                END_IF;
+	                
+	                IF #inx_Ref_Switch THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    
+	                    IF #inx_Ref_Switch THEN
+	                        IF #ldi_Actual_Position = #inouttyp_Config.di_Ref_Pos THEN
+	                            #lx_Motor_Neg := FALSE;
+	                            #lx_Motor_Pos := FALSE;
+	                            #outx_Referenced := TRUE;
+	                            #li_StepCase := 11;
+	                        END_IF;
+	                    END_IF;
+	                END_IF;
+	                
+	            11: // wait not referencing
+	                IF NOT #inx_Referencing THEN
+	                    #li_StepCase := 0;
+	                END_IF;
+	                
+	            20: // approach position
+	                // positiv
+	                IF (#indi_Target_Position > #ldi_Actual_Position) AND NOT ((#indi_Target_Position + #inouttyp_Config.di_Loop_Value) >= #inouttyp_Config.di_Pos_Soft_Switch) THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := TRUE;
+	                    //without loop
+	                    IF (#inouttyp_Config.di_Loop_Value = 0) THEN
+	                        #li_StepCase := 26;
+	                    ELSE
+	                        #li_StepCase := 21;
+	                    END_IF;
+	                // negativ
+	                ELSIF ((#indi_Target_Position < #ldi_Actual_Position) AND NOT (#indi_Target_Position <= #inouttyp_Config.di_Neg_Soft_Switch)) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #li_StepCase := 24;
+	                ELSIF (#indi_Target_Position = #ldi_Actual_Position) THEN
+	                    #li_StepCase := 26;
+	                END_IF;
+	                
+	            21: // with loop
+	                IF (#ldi_Actual_Position >= (#indi_Target_Position + #inouttyp_Config.di_Loop_Value - #inouttyp_Config.di_Pos_Window)) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #li_StepCase := 22;
+	                END_IF;
+	                
+	            22: // wait sequence
+	                #lx_Start_TON_Wait := TRUE;
+	                
+	                IF #lfb_TON_Wait.Q THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #lx_Start_TON_Wait := FALSE;
+	                    #inouttyp_Setup.i_Function := 23;
+	                END_IF;
+	                  
+	            23: // change direction
+	                #lx_Motor_Neg := TRUE;
+	                #lx_Motor_Pos := FALSE;
+	                #li_StepCase := 24;
+	                
+	            24: // position reached negativ
+	                IF (#ldi_Actual_Position <= (#indi_Target_Position + #inouttyp_Config.di_Pos_Window))
+	                    AND (#ldi_Actual_Position >= (#indi_Target_Position - #inouttyp_Config.di_Pos_Window)) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #li_StepCase := 25;
+	                END_IF;
+	                
+	            25: // wait sequence
+	                #lx_Start_TON_Wait := TRUE;
+	                
+	                IF #lfb_TON_Wait.Q THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #lx_Start_TON_Wait := FALSE;
+	                    #outx_Position_Reached := TRUE;
+	                    #li_StepCase := 28;
+	                END_IF;
+	                
+	            26: // position reached positiv
+	                IF (#ldi_Actual_Position <= (#indi_Target_Position + #inouttyp_Config.di_Pos_Window))
+	                    AND (#ldi_Actual_Position >= (#indi_Target_Position - #inouttyp_Config.di_Pos_Window)) THEN
+	                    #lx_Motor_Neg := TRUE;
+	                    #lx_Motor_Pos := TRUE;
+	                    #li_StepCase := 27;
+	                END_IF;
+	                
+	            27: // wait sequence
+	                #lx_Start_TON_Wait := TRUE;
+	                
+	                IF #lfb_TON_Wait.Q THEN
+	                    #lx_Motor_Neg := FALSE;
+	                    #lx_Motor_Pos := FALSE;
+	                    #lx_Start_TON_Wait := FALSE;
+	                    #outx_Position_Reached := TRUE;
+	                    #li_StepCase := 28;
+	                END_IF;
+	                
+	            28: // wait not start positioning
+	                IF NOT #inx_Start_Positioning THEN
+	                    #li_StepCase := 0;
+	                END_IF;
+	            // statement section ELSE    
+	            ELSE  
+	                ;
+	        END_CASE;
+	        
+	        // reload PWM
+	        #li_PWM := #ini_PWM;
+	    END_IF;
+	    
+	    // reload outputs
+	    #outx_Motor_Neg         := #lx_Motor_Neg;
+	    #outx_Motor_Pos         := #lx_Motor_Pos;
+	    #outi_Motor_PWM         := #li_PWM;
+	    #outdi_Actual_Position  := #ldi_Actual_Position;
+	    
+	ELSE
+	    #lx_Init := TRUE;
+	END_IF;
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "FB_INC_DEC"
+TITLE = Funktionblock Increment decodition
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'A.Schaefer'
+VERSION : 0.0
+   VAR_INPUT 
+      inx_CHa { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool := false;
+      inx_CHb { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool := false;
+      inx_RST { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool := False;
+      ini_Ref_Wert { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int := 0;
+   END_VAR
+
+   VAR_OUTPUT 
+      outx_dir { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool := false;
+      outi_cnt { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int := 0;
+   END_VAR
+
+   VAR 
+      lx_edgea { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool := False;
+      lx_clka { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      lx_clkb { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      lx_edgeb { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      lx_axb { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      lx_dir { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Bool;
+      li_cnt { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;
+   END_VAR
+
+
+BEGIN
+	
+	#lx_axb := #inx_CHa XOR #inx_CHb;
+	
+	(* create pulses for channel a *)
+	#lx_clka := #inx_CHa XOR #lx_edgea;
+	#lx_edgea := #inx_CHa;
+	
+	#lx_clkb := #inx_CHb XOR #lx_edgeb;
+	#lx_edgeb := #inx_CHb;
+	
+	(* create pulses for both channels *)
+	#lx_clka := #lx_clka OR #lx_clkb;
+	
+	(* set the direction output *)
+	IF #lx_axb AND #lx_clka THEN
+	    #lx_dir := TRUE;
+	END_IF;
+	IF #lx_axb AND #lx_clkb THEN
+	    #lx_dir := FALSE;
+	END_IF;
+	
+	(* increment or decrement the counter *)
+	IF #lx_clka AND #lx_dir THEN
+	    #li_cnt := #li_cnt + 1;
+	END_IF;
+	IF #lx_clka AND NOT #lx_dir THEN
+	    #li_cnt := #li_cnt - 1;
+	END_IF;
+	
+	(* reset the counter if rst active *)
+	IF #inx_RST THEN
+	    #li_cnt := #ini_Ref_Wert;
+	END_IF;
+	
+	#outx_dir := #lx_dir;
+	#outi_cnt := #li_cnt;
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "PRG_VGR_Axis_rotate_Act_Pos"
+TITLE = Program Axis rotate Actual Position VGR
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'A.Schaefer'
+VERSION : 0.0
+   VAR 
+      lfb_IN_DEC { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "FB_INC_DEC";
+      lfb_Axis : "FB_Axis";
+   END_VAR
+
+
+BEGIN
+	"CTRL_HSC_2_DB"(HSC:="Local~HSC_5",
+	                CV:="IX_VGR_RefSwitchRotate_I3",
+	                NEW_CV:= 0);
+	
+	"gtyp_VGR".rotate_Axis.di_Increment := "Enc_VGR_rotate";
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "PRG_VGR_Axis_vertical_Act_Pos"
+TITLE = Program Axis vertical Actual Position VGR
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'A.Schaefer'
+VERSION : 0.0
+   VAR 
+      lfb_IN_DEC { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "FB_INC_DEC";
+      lfb_Axis : "FB_Axis";
+   END_VAR
+
+
+BEGIN
+	"CTRL_HSC_0_DB"(HSC:="Local~HSC_3",
+	                CV:="IX_VGR_RefSwitchVerticalAxis_I1",
+	                NEW_CV:= 0);
+	
+	"gtyp_VGR".vertical_Axis.di_Increment := "Enc_VGR_vertical";
+	
+END_FUNCTION_BLOCK
+
+FUNCTION_BLOCK "PRG_VGR_Axis_horizontal_Act_Pos"
+TITLE = Program Axis horizontal Actual Position VGR
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'A.Schaefer'
+VERSION : 0.0
+   VAR 
+      lfb_IN_DEC { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'; S7_SetPoint := 'False'} : "FB_INC_DEC";
+      lfb_Axis : "FB_Axis";
+   END_VAR
+
+
+BEGIN
+	"CTRL_HSC_1_DB"(HSC:="Local~HSC_4",
+	                CV:="IX_VGR_RefSwitchHorizontalAxis_I2",
+	                NEW_CV:= 0);
+	
+	"gtyp_VGR".horizontal_Axis.di_Increment := "Enc_VGR_horizontal";
+END_FUNCTION_BLOCK
+
+DATA_BLOCK "PRG_VGR_Axis_rotate_Act_Pos_DB"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"PRG_VGR_Axis_rotate_Act_Pos"
+
+BEGIN
+
+END_DATA_BLOCK
+
+DATA_BLOCK "PRG_VGR_Axis_vertical_Act_Pos_DB"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"PRG_VGR_Axis_vertical_Act_Pos"
+
+BEGIN
+
+END_DATA_BLOCK
+
+DATA_BLOCK "PRG_VGR_Axis_horizontal_Act_Pos_DB"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"PRG_VGR_Axis_horizontal_Act_Pos"
+
+BEGIN
+
+END_DATA_BLOCK
+
+ORGANIZATION_BLOCK "Cyclic interrupt"
+TITLE = Cyclic interrupt
+{ S7_Optimized_Access := 'TRUE' }
+AUTHOR : 'A.Schaefer'
+VERSION : 0.0
+   VAR_TEMP 
+      li_Return_LDT : Int;
+   END_VAR
+
+
+BEGIN
+	"PRG_VGR_Axis_horizontal_Act_Pos_DB"();
+	"PRG_VGR_Axis_vertical_Act_Pos_DB"();
+	"PRG_VGR_Axis_rotate_Act_Pos_DB"();
+	
+	
+END_ORGANIZATION_BLOCK
+

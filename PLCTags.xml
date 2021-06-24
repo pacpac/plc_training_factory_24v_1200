@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<Tagtable name='ControllerTagsFolder'>
+  <!-- exported by 'Totally Integrated Automation Portal' version 1600.0.3102.1   © 2004-2016 Siemens AG - all rights reserved -->
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - I1 = Reference switch vertical axis' addr='%I12.0'>IX_VGR_RefSwitchVerticalAxis_I1</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - I2 = Reference switch horizontal axis' addr='%I12.1'>IX_VGR_RefSwitchHorizontalAxis_I2</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - I3 = Reference switch rotate' addr='%I12.2'>IX_VGR_RefSwitchRotate_I3</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - Q1 = Motor M1 vertical axis up' addr='%Q13.0'>QX_VGR_M1_VerticalAxisUp_Q1</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - Q2 = Motor M1 vertical axis down' addr='%Q13.1'>QX_VGR_M1_VerticalAxisDown_Q2</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - Q3 = Motor M2 horizontal axis backward' addr='%Q13.2'>QX_VGR_M2_HorizontalAxisBackward_Q3</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - Q4 = Motor M2 horizontal axis forward' addr='%Q13.3'>QX_VGR_M2_HorizontalAxisForward_Q4</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - Q5 = Motor M3 rotate clockwise' addr='%Q13.4'>QX_VGR_M3_RotateClockwise_Q5</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - Q6 = Motor M3 rotate counterclockwise' addr='%Q13.5'>QX_VGR_M3_RotateCounterclockwise_Q6</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - Q7 = Compressor' addr='%Q13.6'>QX_VGR_Compressor_Q7</Tag>
+  <Tag type='Bool' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='VGR - Q8 = Valve vacuum' addr='%Q13.7'>QX_VGR_ValveVacuum_Q8</Tag>
+  <Tag type='DInt' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='' addr='%ID1008'>Enc_VGR_vertical</Tag>
+  <Tag type='DInt' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='' addr='%ID1012'>Enc_VGR_horizontal</Tag>
+  <Tag type='DInt' hmiVisible='True' hmiWriteable='True' hmiAccessible='True' retain='False' remark='' addr='%ID1016'>Enc_VGR_rotate</Tag>
+  <Tag type='Bool' hmiVisible='False' hmiWriteable='False' hmiAccessible='False' retain='False' remark='MPO - I6 = Reference switch oven feeder inside' addr='%I8.5'>IX_MPO_RefSwitchOvenFeederInside_I6</Tag>
+  <Tag type='Bool' hmiVisible='False' hmiWriteable='False' hmiAccessible='False' retain='False' remark='MPO - I7 = Reference switch oven feeder outside' addr='%I8.6'>IX_MPO_RefSwitchOvenFeederOutside_I7</Tag>
+  <Tag type='Bool' hmiVisible='False' hmiWriteable='False' hmiAccessible='False' retain='False' remark='MPO - Q5 = Motor M4 oven feeder retract' addr='%Q8.2'>QX_MPO_M4_OvenFeederRetract_Q5</Tag>
+  <Tag type='Bool' hmiVisible='False' hmiWriteable='False' hmiAccessible='False' retain='False' remark='MPO - Q6 = Motor M4 oven feeder extend' addr='%Q8.3'>QX_MPO_M4_OvenFeederExtend_Q6</Tag>
+  <Tag type='Bool' hmiVisible='False' hmiWriteable='False' hmiAccessible='False' retain='False' remark='MPO - Q10 = Compressor' addr='%Q8.7'>QX_MPO_Compressor_Q10</Tag>
+  <Tag type='Bool' hmiVisible='False' hmiWriteable='False' hmiAccessible='False' retain='False' remark='MPO - Q13 = Valve oven door' addr='%Q9.2'>QX_MPO_ValveOvenDoor_Q13</Tag>
+</Tagtable>

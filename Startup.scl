@@ -1,0 +1,9 @@
+﻿ORGANIZATION_BLOCK "Startup"
+TITLE = "Complete Restart"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+
+BEGIN
+	"PRG_VGR_Demo_DB".li_StepCase := 0;
+END_ORGANIZATION_BLOCK
+
