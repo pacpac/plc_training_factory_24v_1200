@@ -1,7 +1,6 @@
-# Source code as SCL / ST
+# Исходный код на языке SCL / ST
 
-If a different PLC as S7 1200 is used, other software tools have to be used to create and load the programs and to start up the Training Factory Industry 4.0 model.
+Данный исходный код написан на языке SCL / ST. 
+Если выбран другой ПЛК, код может быть импортирован в среду разработки для создания управляющей программы.
 
-Depending on the PLC, the source code in this folder can be imported for creating the PLC programs.
-
-see Structured Text (ST)
+[Подробнее о языке ST](https://ru.wikipedia.org/wiki/Structured_Text)
