@@ -1,6 +1,8 @@
 # plc_training_factory_24v_1200
 
-Проект plc_training_factory_24v_1200 предназначен для демонстрации работы манипулятора с вакуумным захватным устройством (VGR) в составе макета [fischertechnik 536634 Simulation Factory 24v](http://pacpac.ru/product/536634-simulation-factory-24v/). Проект создан на базе кода из репозитария [fischertechnik Training Factory Industry 4.0 24V](https://github.com/fischertechnik/plc_training_factory_24v). Для управления используется стойка СТ350 и контроллер SIMATIC S7-1214C с комплектом модулей ввода-вывода.
+[![Учебный макет Fischertechnik + ПЛК SIMATIC S7-1200](https://img.youtube.com/vi/5JL7zXeda54/0.jpg)](https://www.youtube.com/watch?v=5JL7zXeda54 "Учебный макет Fischertechnik + ПЛК SIMATIC S7-1200")
+
+Проект plc_training_factory_24v_1200 предназначен для демонстрации работы манипулятора с вакуумным захватным устройством (VGR) в составе макета [fischertechnik 536634 Simulation Factory 24v](https://pacpac.ru/product/536634-simulation-factory-24v/). Проект создан на базе кода из репозитария [fischertechnik Training Factory Industry 4.0 24V](https://github.com/fischertechnik/plc_training_factory_24v). Для управления используется стойка управления (СТ350)[https://pacpac.ru/product/pkp-01004-st350-v04-wo-plc/] и контроллер SIMATIC S7-1214C с комплектом модулей ввода-вывода.
 
 ## <a name="requirements"></a>Системные требования
 * TIA Portal – 16
@@ -111,5 +113,6 @@
 
 ## Электронные ресурсы
 
-- [SIEMENS Programming Guideline for S7-1200/S7-1500, V1.5, 03/2017 (90885040)](https://support.industry.siemens.com/cs/document/90885040);
-- [Исходный код проекта fischertechnik Training Factory Industry 4.0 24V](https://github.com/fischertechnik/plc_training_factory_24v).
+- [SIEMENS Programming Guideline for S7-1200/S7-1500, V1.5, 03/2017 (90885040)](https://support.industry.siemens.com/cs/document/90885040)
+- [Исходный код проекта fischertechnik Training Factory Industry 4.0 24V](https://github.com/fischertechnik/plc_training_factory_24v)
+- [Учебный макет Fischertechnik](https://pacpac.ru/product/536634-simulation-factory-24v/)
